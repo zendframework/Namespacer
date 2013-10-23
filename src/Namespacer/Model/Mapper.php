@@ -133,8 +133,7 @@ class Mapper
     }
 
     protected function transformReservedWords(&$data)
-    {
-        /*
+    {        
         static $reservedWords = array(
             'and','array','as','break','case','catch','class','clone',
             'const','continue','declare','default','do','else','elseif',
@@ -142,20 +141,25 @@ class Mapper
             'extends','final','for','foreach','function','global',
             'goto','if','implements','instanceof','namespace',
             'new','or','private','protected','public','static','switch',
-            'throw','try','use','var','while','xor'
+            'throw','try','use','var','while','xor',
         );
 
-        if ($data['new_class'] !== 'Interface') {
-            return;
+        $nsParts = explode('\\', $data['new_namespace']);
+        foreach ($nsParts as $index => $nsPart) {
+            if (in_array(strtolower($nsPart), $reservedWords)) {
+                $nsParts[$index] .= 'Namespace';
+            }
         }
 
-        $nsParts = array_reverse(explode('\\', $data['new_namespace']));
-        $data['new_class'] = $nsParts[0] . 'Interface';
+        $data['new_namespace'] = implode('\\', $nsParts);
+
+        if (in_array($data['new_class'], $reservedWords)) {
+            $data['new_class'] .= 'Class';
+        }
 
         $data['new_file'] = $data['root_directory'] . DIRECTORY_SEPARATOR
             . str_replace('\\', DIRECTORY_SEPARATOR, $data['new_namespace']) . DIRECTORY_SEPARATOR
             . $data['new_class'] . '.php';
-        */
     }
 
 }
