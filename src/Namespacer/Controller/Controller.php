@@ -5,6 +5,7 @@ namespace Namespacer\Controller;
 use Namespacer\Model\Map;
 use Namespacer\Model\Mapper;
 use Namespacer\Model\Transformer;
+use Namespacer\Model\Fixer;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class Controller extends AbstractActionController
@@ -49,6 +50,17 @@ class Controller extends AbstractActionController
                 break;
         }
 
+    }
 
+    public function fixAction()
+    {
+        $mapfile = $this->params()->fromRoute('mapfile');
+        $source = $this->params()->fromRoute('target');
+        $data = include $mapfile;
+
+        $map   = new Map($data);
+        $fixer = new Fixer($map);
+
+        $fixer->fix($source);
     }
 }
