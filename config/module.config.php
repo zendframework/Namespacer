@@ -50,6 +50,15 @@ return array(
                         ),
                     ),
                 ),
+                'namespacer-fix' => array(
+                    'options' => array(
+                        'route'    => 'fix [--mapfile=] [--target=]',
+                        'defaults' => array(
+                            'controller' => 'Namespacer\Controller\Controller',
+                            'action'     => 'fix',
+                        ),
+                    ),
+                ),
             ),
         ),
     ),
