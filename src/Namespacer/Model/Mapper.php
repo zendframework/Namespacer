@@ -133,7 +133,7 @@ class Mapper
     }
 
     protected function transformReservedWords(&$data)
-    {        
+    {
         static $reservedWords = array(
             'and','array','as','break','case','catch','class','clone',
             'const','continue','declare','default','do','else','elseif',
