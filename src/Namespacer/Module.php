@@ -8,7 +8,10 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
 
-class Module implements ConsoleUsageProviderInterface, AutoloaderProviderInterface, ConfigProviderInterface
+class Module implements 
+    AutoloaderProviderInterface,
+    ConfigProviderInterface,
+    ConsoleUsageProviderInterface
 {
     const VERSION = '0.1';
     const NAME    = 'Namespacer';
