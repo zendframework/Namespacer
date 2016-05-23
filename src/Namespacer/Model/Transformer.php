@@ -91,7 +91,7 @@ class Transformer
         $contents = '';
         $token = reset($tokens);
         do {
-            if ($token[0] === T_CLASS) {
+            if ($this->isClass($token[0])) {
                 $contents .= 'class ' . $names['class'];
                 next($tokens); next($tokens);
             } else {
@@ -247,4 +247,12 @@ class Transformer
         file_put_contents($file, $contents);
     }
 
+    protected function isClass($token)
+    {
+        return in_array($token, [
+            T_CLASS,
+            T_INTERFACE,
+            T_TRAIT,
+        ], true);
+    }
 }
