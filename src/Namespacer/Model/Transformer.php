@@ -92,8 +92,9 @@ class Transformer
         $token = reset($tokens);
         do {
             if ($this->isClass($token[0])) {
-                $contents .= 'class ' . $names['class'];
-                next($tokens); next($tokens);
+                $contents .= $token[1] . ' ' . $names['class'];
+                next($tokens);
+                next($tokens);
             } else {
                 $contents .= (is_array($token)) ? $token[1] : $token;
             }
