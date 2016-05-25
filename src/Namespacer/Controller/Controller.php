@@ -10,6 +10,7 @@ use Namespacer\Model\Fixer;
 use Namespacer\Model\Map;
 use Namespacer\Model\Mapper;
 use Namespacer\Model\Transformer;
+use Namespacer\Model\LegacyExtension;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class Controller extends AbstractActionController
@@ -35,9 +36,6 @@ class Controller extends AbstractActionController
         $transformer = new Transformer($map);
 
         switch ($step) {
-            case '4':
-                $transformer->modifyOriginalContentForExtension();
-                break;
             case '3':
                 $transformer->modifyContentForUseStatements();
                 break;
@@ -53,6 +51,17 @@ class Controller extends AbstractActionController
                 $transformer->modifyContentForUseStatements();
                 break;
         }
+    }
+
+    public function legacyExtensionAction()
+    {
+        $mapfile     = $this->params()->fromRoute('mapfile');
+        $target      = $this->params()->fromRoute('target');
+        $data        = include $mapfile;
+        $map         = new Map($data);
+        $transformer = new LegacyExtension($map);
+
+        $transformer->createLegacyClasses($target);
     }
 
     public function fixAction()
