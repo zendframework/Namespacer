@@ -35,6 +35,9 @@ class Controller extends AbstractActionController
         $transformer = new Transformer($map);
 
         switch ($step) {
+            case '4':
+                $transformer->modifyOriginalContentForExtension();
+                break;
             case '3':
                 $transformer->modifyContentForUseStatements();
                 break;

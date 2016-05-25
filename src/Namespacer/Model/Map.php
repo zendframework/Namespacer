@@ -53,6 +53,18 @@ class Map
         return $data;
     }
 
+    public function getExtensionMap()
+    {
+        $data = array();
+        foreach ($this->mapData as $item) {
+            $data[$item['original_file']] = array(
+                'extends' => $item['new_namespace'] . '\\' . $item['new_class'],
+                'class' => $item['original_class']
+            );
+        }
+        return $data;
+    }
+
     public function getClassTransformations()
     {
         $data = array();
