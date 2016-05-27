@@ -27,7 +27,7 @@ class Transformer
             if (!file_exists($newDir)) {
                 mkdir($newDir, 0777, true);
             }
-            copy($old, $new . '.transform');
+            rename($old, $new . '.transform');
         }
         foreach ($fileRenamings as $new) {
             if (file_exists($new . '.transform')) {
