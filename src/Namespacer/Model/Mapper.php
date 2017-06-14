@@ -64,6 +64,7 @@ class Mapper
             // per-file transformations
             $this->transformInterfaceName($data);
             $this->transformAbstractName($data);
+            $this->transformTraitName($data);
             $this->transformReservedWords($data);
 
             $datas[] = $data;
@@ -126,6 +127,20 @@ class Mapper
 
         $nsParts = array_reverse(explode('\\', $data['new_namespace']));
         $data['new_class'] = 'Abstract' . $nsParts[0];
+
+        $data['new_file'] = $data['root_directory'] . DIRECTORY_SEPARATOR
+            . str_replace('\\', DIRECTORY_SEPARATOR, $data['new_namespace']) . DIRECTORY_SEPARATOR
+            . $data['new_class'] . '.php';
+    }
+
+    protected function transformTraitName(&$data)
+    {
+        if (strtolower($data['new_class']) !== 'trait') {
+            return;
+        }
+
+        $nsParts = array_reverse(explode('\\', $data['new_namespace']));
+        $data['new_class'] = $nsParts[0] . 'Trait';
 
         $data['new_file'] = $data['root_directory'] . DIRECTORY_SEPARATOR
             . str_replace('\\', DIRECTORY_SEPARATOR, $data['new_namespace']) . DIRECTORY_SEPARATOR

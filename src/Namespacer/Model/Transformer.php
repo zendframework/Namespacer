@@ -47,6 +47,17 @@ class Transformer
         }
     }
 
+    public function modifyOriginalContentForExtension()
+    {
+        $extensionMap = $this->map->getExtensionMap();
+        foreach ($extensionMap as $file => $extends) {
+            if (!file_exists($file)) {
+                throw new \RuntimeException('The file ' . $file . ' could not be found in the filesystem, check your map file is correct.');
+            }
+            $this->modifyOriginalFileforExtension($file, $extends);
+        }
+    }
+
     public function modifyContentForUseStatements()
     {
         $files = $this->map->getNewFiles();
@@ -91,9 +102,37 @@ class Transformer
         $contents = '';
         $token = reset($tokens);
         do {
-            if ($token[0] === T_CLASS) {
-                $contents .= 'class ' . $names['class'];
-                next($tokens); next($tokens);
+            if ($this->isClass($token[0])) {
+                $contents .= $token[1] . ' ' . $names['class'];
+                next($tokens);
+                next($tokens);
+            } else {
+                $contents .= (is_array($token)) ? $token[1] : $token;
+            }
+        } while ($token = next($tokens));
+
+        file_put_contents($file, $contents);
+    }
+
+    protected function modifyOriginalFileforExtension($file, $names)
+    {
+        $tokens = token_get_all(file_get_contents($file));
+
+        $contents = '';
+        $token = reset($tokens);
+        do {
+            if (T_TRAIT === $token[0]) {
+                $contents .= $token[1] . ' ' . $names['class'];
+                $contents .= "\n{\n";
+                $contents .= "    use \\" . $names['extends'] . ";";
+                $contents .= "\n}\n";
+                break 2;
+            }
+            if ($this->isClass($token[0])) {
+                $contents .= $token[1] . ' ' . $names['class'];
+                $contents .= " extends \\" . $names['extends'];
+                $contents .= "\n{\n}\n";
+                break 2;
             } else {
                 $contents .= (is_array($token)) ? $token[1] : $token;
             }
@@ -247,4 +286,12 @@ class Transformer
         file_put_contents($file, $contents);
     }
 
+    protected function isClass($token)
+    {
+        return in_array($token, [
+            T_CLASS,
+            T_INTERFACE,
+            T_TRAIT,
+        ], true);
+    }
 }
