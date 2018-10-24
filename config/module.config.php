@@ -59,6 +59,15 @@ return array(
                         ),
                     ),
                 ),
+                'namespacer-legacy' => array(
+                    'options' => array(
+                        'route'    => 'legacy [--mapfile=] [--target=]',
+                        'defaults' => array(
+                            'controller' => 'Namespacer\Controller\Controller',
+                            'action'     => 'legacyExtension',
+                        ),
+                    ),
+                ),
             ),
         ),
     ),

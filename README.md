@@ -20,8 +20,19 @@ if you need to.
     namespacer.phar map --mapfile types.php --source path/to/src
     ```
 
-* Second, transform the types located in the map file:
+* Second, if you want to maintain legacy classes extending your new ones:
+
+    ```
+    namespacer.phar legacy --mapfile types.php --target path/for/legacy/files
+    ```
+
+* Thirdly, transform the types located in the map file:
 
     ```
     namespacer.phar transform --mapfile types.php
+    ```
+
+* Last, fix any used namespaces
+    ```
+    namespacer.phar fix --mapfile types.php --target path/to/src
     ```

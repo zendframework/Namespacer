@@ -53,6 +53,24 @@ class Map
         return $data;
     }
 
+    public function getExtensionMap($directory = false)
+    {
+        $data = array();
+        foreach ($this->mapData as $item) {
+            if ($directory) {
+                $file = str_replace($item['root_directory'], $directory, $item['original_file']);
+            } else {
+                $file = $item['original_file'];
+            }
+            $data[$file] = array(
+                'extends' => $item['new_namespace'] . '\\' . $item['new_class'],
+                'class' => $item['original_class'],
+                'original_file' => $item['original_file']
+            );
+        }
+        return $data;
+    }
+
     public function getClassTransformations()
     {
         $data = array();
