@@ -1,6 +1,10 @@
 Namespacer
 ==========
 
+> ## Repository abandoned 2019-12-05
+>
+> This repository is no longer maintained.
+
 This tool will assist you in taking older underscore/prefix spaced code
 and will namespace it as best as it can, and also make the files and class
 names ZF/PEAR compatible.
